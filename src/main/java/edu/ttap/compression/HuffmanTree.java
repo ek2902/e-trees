@@ -14,9 +14,14 @@ package edu.ttap.compression;
  */
 public class HuffmanTree {
 
+    /**
+     * A node of the binary tree.
+     */
     public static class Node<T> {
         public T value;
+
         public Node<T> left;
+
         public Node<T> right;
 
         /**
@@ -39,20 +44,25 @@ public class HuffmanTree {
     Node<Integer> root;
 
     /**
-     * Constructs a new HuffmanTree from the given file.
+     * helper for HuffmanTree
      * @param in the input file (as a BitInputStream)
+     * @return tree so far
      */
-    public Node<Integer> HuffmanHelper (BitInputStream in) {
+    public Node<Integer> huffmanHelper(BitInputStream in) {
         int curBit = in.readBit();
         if (curBit == 1) {
-            return new Node<Integer>(HuffmanHelper(in), HuffmanHelper(in));
+            return new Node<Integer>(huffmanHelper(in), huffmanHelper(in));
         } else {
             return new Node<Integer>(in.readBits(9));
         }
     }
 
+    /**
+     * Constructs a new HuffmanTree from the given file.
+     * @param in the input file (as a BitInputStream)
+     */
     public HuffmanTree(BitInputStream in) {
-        this.root = HuffmanHelper(in);
+        this.root = huffmanHelper(in);
     }
 
     /**
@@ -64,6 +74,17 @@ public class HuffmanTree {
      * @param out the file to write the decompressed output to.
      */
     public void decode(BitInputStream in, BitOutputStream out) {
+        Node<Integer> cur = root;
+        int curBit = in.readBit();;
         
+        while (curBit != -1) {
+            curBit = in.readBit();
+            if (curBit == 1 && cur.value == null) {
+                cur = root.left;
+            } else {
+                cur = root.right;
+            }
+            out.writeBit(cur.value);
+        }
     }
 }
