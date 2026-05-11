@@ -1,4 +1,4 @@
-# (_TODO: fill in the title of this assignment here!_)
+# Project 6: Grin Decompression
 
 Authors: Eva Kapoor
 
@@ -10,6 +10,5 @@ Authors: Eva Kapoor
 
 ## Resources
 
-*   (_TODO: fill in resources here!_)
-*   ...
-*   ...
+*   VSCode
+*   https://osera.cs.grinnell.edu/ttap/data-structures-labs/decompression.html

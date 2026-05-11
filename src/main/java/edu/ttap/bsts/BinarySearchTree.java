@@ -201,19 +201,19 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
   
     /*
      * The three cases of deletion are:
-     * 1. node has 0 children
-     * 2. node has 1 child (l or r)
-     * 3. node has 2 children
+     * 1. node has 0 children (directly remove)
+     * 2. node has 1 child (remove node, connect parent node to only child node)
+     * 3. node has 2 children 
      */
 
     /**
-     * helper for delete
+     * gets inorder successor (smallest node in right subtree)
      * @param cur
-     * @return previous node
+     * @return successor
      */
-    private Node<T> getPrev(Node<T> cur) {
+    private Node<T> getSuccNode(Node<T> cur) {
         cur = cur.right;
-        while (cur != null && cur.left != null) {
+        while (cur != null & cur.left != null) {
             cur = cur.left;
         }
         return cur;
@@ -221,34 +221,33 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     /**
      * helper for delete
-     * @param node the current node
+     * @param root the current node
      * @param value the value to delete
      * @return node so far
      */
-    public Node<T> deleteH(Node<T> node, T value) {
+    public Node<T> deleteH(Node<T> root, T value) {
 
-        if (node == null) {
-            return node;
+        if (root == null) {
+            return root;
         }
 
-        if (value.compareTo(node.value) < 0) {
-            node.left = deleteH(node.left, value);
+        if (value.compareTo(root.value) < 0) {
+            root.left = deleteH(root.left, value);
         } else if (value.compareTo(root.value) > 0) {
-            node.right = deleteH(node.right, value);
+            root.right = deleteH(root.right, value);
         } else {
-            if (node.left == null) { 
-                return node.right;
+            if (root.left == null) { 
+                return root.right;
             }
-            if (node.right == null) { 
-                return node.left; 
+            if (root.right == null) { 
+                return root.left; 
             }
 
-            // Node with 2 children
-            Node<T> prev = getPrev(node);
-            node.value = prev.value;
-            node.right = deleteH(node.right, prev.value);
+            Node<T> succ = getSuccNode(root);
+            root.value = succ.value;
+            root.right = deleteH(root.right, succ.value);
         }
-        return node;
+        return root;
     }
 
     /**
