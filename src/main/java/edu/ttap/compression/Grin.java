@@ -31,10 +31,11 @@ public class Grin {
      */
     public static void main(String[] args) throws IOException {
         if (args.length != 2) {
-            throw new IOException("Usage: java Grin <infile> <outfile>");
+            System.err.println("Usage: java Grin <infile> <outfile>");
+            System.exit(1);
         }
         
-        decode(args[0], args[1]);
+        decode("src/files/" + args[0], "src/files/" + args[1]);
         
     }
 }

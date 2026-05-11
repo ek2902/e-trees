@@ -75,16 +75,23 @@ public class HuffmanTree {
      */
     public void decode(BitInputStream in, BitOutputStream out) {
         Node<Integer> cur = root;
-        int curBit = in.readBit();;
+        int curBit = 0;
         
-        while (curBit != -1) {
-            curBit = in.readBit();
-            if (curBit == 1 && cur.value == null) {
-                cur = root.left;
-            } else {
-                cur = root.right;
+        while (in.hasBits()) {
+            while (cur.value == null) {
+                curBit = in.readBit();
+                if (curBit == 1) {
+                    cur = cur.right;
+                } else if (curBit == 0) {
+                    cur = cur.left;
+                }
             }
-            out.writeBit(cur.value);
+            System.out.println("am writing out :)");
+            if (Integer.toBinaryString(cur.value).length() == 9) {
+                return;
+            }
+            out.writeBits(cur.value, 8);
+            cur = root;
         }
     }
 }

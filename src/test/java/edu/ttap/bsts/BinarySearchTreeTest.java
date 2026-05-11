@@ -29,6 +29,8 @@ public class BinarySearchTreeTest {
     public void basicSizeInsertTest() {
         BinarySearchTree<Integer> tree = mkSampleTree();
         assertEquals(5, tree.size());
+        tree.insert(4);
+        assertEquals(6, tree.size());
     }
 
     @Test

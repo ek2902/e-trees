@@ -190,16 +190,20 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      */
 
     public static <T extends Comparable<? super T>> List<T> sort(List<T> lst) {
-        throw new UnsupportedOperationException();
+        BinarySearchTree<T> tree = new BinarySearchTree<T>();
+        for (T v : lst) {
+            tree.insert(v);
+        }
+        return tree.toList();
     }
 
     ///// Part 5: Deletion
   
     /*
      * The three cases of deletion are:
-     * 1. (TODO: fill me in!)
-     * 2. (TODO: fill me in!)
-     * 3. (TOOD: fill me in!)
+     * 1. node has 0 children
+     * 2. node has 1 child (l or r)
+     * 3. node has 2 children
      */
 
     /**
@@ -223,34 +227,28 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      */
     public Node<T> deleteH(Node<T> node, T value) {
 
-        if (root == null) {
-
-            return root;
-
+        if (node == null) {
+            return node;
         }
 
-        if (value.compareTo(root.value) < 0) {
-
-            root.left = deleteH(root.left, value);
-
+        if (value.compareTo(node.value) < 0) {
+            node.left = deleteH(node.left, value);
         } else if (value.compareTo(root.value) > 0) {
-
-            root.right = deleteH(root.right, value);
-
+            node.right = deleteH(node.right, value);
         } else {
-            if (root.left == null) { 
-                return root.right;
+            if (node.left == null) { 
+                return node.right;
             }
-            if (root.right == null) { 
-                return root.left; 
+            if (node.right == null) { 
+                return node.left; 
             }
 
             // Node with 2 children
-            Node<T> prev = getPrev(root);
-            root.value = prev.value;
-            root.right = deleteH(root.right, prev.value);
+            Node<T> prev = getPrev(node);
+            node.value = prev.value;
+            node.right = deleteH(node.right, prev.value);
         }
-        return root;
+        return node;
     }
 
     /**
@@ -260,6 +258,6 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      * @param value the value to delete
      */
     public void delete(T value) {
-        deleteH(root, value);
+        root = deleteH(root, value);
     }
 }
